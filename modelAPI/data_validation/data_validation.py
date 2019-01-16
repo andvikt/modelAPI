@@ -3,6 +3,7 @@ from pandas import DataFrame, concat
 from typing import Sequence
 from modelAPI.data_validation.helpers import VAL_LOGGER, LEVELS
 from logging import Logger
+import os
 
 
 class DataValidator(_LoggerMixin):
@@ -38,15 +39,23 @@ class DataValidator(_LoggerMixin):
             x(data=init_data) for x in val_schema
         ]
 
-    def __call__(self, data: DataFrame) -> DataFrame:
+    def __call__(self, data: DataFrame, raise_on_error:bool=False) -> DataFrame:
         """
         Validate data
         :param data: data for validation
+        :param raise_on_error: bool
         """
         ret = [x(data) for x in self.validators]
         ret = [x for x in ret if x is not None]
         ret = concat(ret) if ret else None
         if ret is not None:
             ret.sort_values(['level'], ascending=False)
+            for (idx, control, passed, level) in ret.itertuples():
+                self.logger.log(level, f"{idx}: C: {control}; P: {passed}")
             ret['level'] = ret['level'].map(LEVELS)
+            if (ret['level'] == 'error').max() and raise_on_error:
+                report_fname = f'{self.namespace}.{self.name}.xls'
+                self.logger.error(f'Validation of {self.name} passed with errors, look at {os.getcwd()}\{report_fname}:\n{ret}')
+                ret.to_excel(report_fname)
+                raise Exception(f'Validation of {self.name} passed with errors')
         return ret
