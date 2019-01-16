@@ -26,7 +26,7 @@ def has_dates(data: DataFrame):
     return data.applymap(lambda x: isinstance(x, date)).max()
 
 
-def pass_throgh(data: DataFrame):
+def pass_through(data: DataFrame):
     return data.stack()
 
 def quantiles(data: DataFrame):

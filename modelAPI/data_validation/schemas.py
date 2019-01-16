@@ -16,6 +16,6 @@ VAL_DATA_SCHEMA = [
 
 VAL_EXACT_DATA = [
     _PrepValidator('data_len', stats.data_len, (ERROR, tr.ne))
-    , _PrepValidator('exact_match', stats.pass_throgh, (ERROR, tr.ne))
+    , _PrepValidator('exact_match', stats.pass_through, (ERROR, tr.ne))
 ]
 
