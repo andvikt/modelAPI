@@ -39,3 +39,7 @@ def quantiles(data: DataFrame):
 
 def data_len(data: DataFrame):
     return Series([data.shape[0]], ['data_len'])
+
+
+def columns(data: DataFrame):
+    return Series(data.columns)

@@ -10,18 +10,14 @@ def treatment_foo(foo):
     """
     @functools.wraps(foo)
     def wrapper(x, y, *args, **kwargs):
-        ret = foo(x, y, *args, **kwargs)
+        assert isinstance(x, Series) and isinstance(y, Series)
+        _ret = y.to_frame('control').join(x.to_frame('passed'), rsuffix='_', how='left')
+        ret = foo(y=_ret.iloc[:, 0], x=_ret.iloc[:, 1], *args, **kwargs)
         if not isinstance(ret, (Series, int, float, str)):
             raise TypeError(f'{foo} must return Series or scalar, but returned {ret}')
-        return ret
+        if ret.max():
+            return _ret[ret]
     return wrapper
-
-#def treatment_foo(foo):
-#    """
-#    decorator to make any function as _TreatmenFoo
-#    :para#m foo: Callablce with at least two arguments
-#    """
-#    return  treatment_foo(foo)
 
 
 @treatment_foo

@@ -58,17 +58,10 @@ class _BaseValidator(Callable):
         def process():
             VAL_LOGGER.debug(f'{self.name} treat')
             ret = self.treatment(x=value, y=cvalue)
-            if not isinstance(ret, Series):
-                raise Exception(f'Error validating {self.name}, treatment must return Series, DataFrame '
-                                f'or scalar, but returned {ret}')
             return ret
 
-        ret = process()
-        res = None
-        if ret.max():
-            not_passed = value[ret]
-            control_values = cvalue[ret]
-            res = not_passed.to_frame('passed').join(control_values.to_frame('control'))
+        res = process()
+        if res is not None:
             res['val'] = self.name
             res['level'] = self.level
             res.set_index(['val'], append=True, inplace=True)
