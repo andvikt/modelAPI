@@ -26,8 +26,8 @@ class DataValidator(_LoggerMixin, _SelfSaving):
 
     """
     def __init__(self
-                 , init_data: DataFrame = None
-                 , val_schema: Sequence[_PrepValidator] = None
+                 , init_data: DataFrame
+                 , val_schema: Sequence[_PrepValidator]
                  , name: str = 'validate'
                  ):
         """
