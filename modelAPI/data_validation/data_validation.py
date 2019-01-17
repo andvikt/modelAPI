@@ -1,4 +1,5 @@
 from .helpers import _PrepValidator, _LoggerMixin
+from .schemas import VAL_DATA_SCHEMA
 from ..utils.saver import _SelfSaving
 from pandas import DataFrame, concat
 from typing import Sequence
@@ -27,7 +28,7 @@ class DataValidator(_LoggerMixin, _SelfSaving):
     """
     def __init__(self
                  , init_data: DataFrame
-                 , val_schema: Sequence[_PrepValidator]
+                 , val_schema: Sequence[_PrepValidator] = VAL_DATA_SCHEMA
                  , name: str = 'validate'
                  ):
         """
