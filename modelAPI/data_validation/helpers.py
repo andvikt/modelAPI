@@ -92,7 +92,7 @@ class _BaseManyValidators(Callable):
 
     def __call__(self, value, *args, **kwargs):
         if self.prep_foo:
-            VAL_LOGGER.info(f'Prepare data for {self.name} validator')
+            VAL_LOGGER.debug(f'Prepare data for {self.name} validator')
             value = self.prep_foo(value)
             if not isinstance(value, Series):
                 raise TypeError(f'{self.prep_foo} must return Series, but returned {value}')
