@@ -1,4 +1,5 @@
-from .helpers import _PrepValidator, _LoggerMixin
+from .helpers import _PrepValidator
+from ..utils.logger import _LoggerMixin
 from .schemas import VAL_DATA_SCHEMA
 from ..utils.saver import _SelfSaving
 from pandas import DataFrame, concat

@@ -29,17 +29,6 @@ def warn(cvalue, cname, pass_name, pass_value):
     VAL_LOGGER.warning(f'{cname} did not pass {pass_name} with value {cvalue}, pass_value {pass_value}')
 
 
-class _LoggerMixin(object):
-
-    def __init__(self, name, namespace):
-        self.name = name
-        self.namespace=namespace
-
-    @property
-    def logger(self):
-        return getLogger(f'validation.{self.name}')
-
-
 class _BaseValidator(Callable):
 
     def __init__(self
@@ -66,8 +55,6 @@ class _BaseValidator(Callable):
             res['level'] = self.level
             res.set_index(['val'], append=True, inplace=True)
         return res
-
-
 
 
 class _BaseManyValidators(Callable):
@@ -103,6 +90,7 @@ class _BaseManyValidators(Callable):
                 res.append(_res)
                 break
         return concat(res) if res else None
+
 
 class _PrepValidator(Callable):
     """
