@@ -63,3 +63,11 @@ class DataValidator(_LoggerMixin, _SelfSaving):
                 ret.to_excel(report_fname)
                 raise Exception(f'Validation of {self.name} passed with errors')
         return ret
+
+    def validate(self, data: DataFrame, raise_on_error:bool=False) -> DataFrame:
+        """
+        Validate data
+        :param data: data for validation
+        :param raise_on_error: bool
+        """
+        return self.__call__(data=data, raise_on_error=raise_on_error)
